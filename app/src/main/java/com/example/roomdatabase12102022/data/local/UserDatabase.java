@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.roomdatabase12102022.data.local.dao.UserDAO;
+import com.example.roomdatabase12102022.data.local.dao.UserDao;
 import com.example.roomdatabase12102022.data.local.entities.HistoryEntity;
 import com.example.roomdatabase12102022.data.local.entities.UserEntity;
 
@@ -16,7 +16,7 @@ import com.example.roomdatabase12102022.data.local.entities.UserEntity;
 
 @Database(entities = {UserEntity.class, HistoryEntity.class}, version = 1, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase{
-    public abstract UserDAO userDao();
+    public abstract UserDao userDao();
     private static UserDatabase instance;
 
     public synchronized static UserDatabase getInstance(Context context) {

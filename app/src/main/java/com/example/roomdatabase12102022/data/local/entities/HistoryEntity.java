@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 /**
  * Created by pphat on 1/4/2023.
@@ -23,6 +24,8 @@ public class HistoryEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+
+    @TypeConverters(HistoryEntityConverter.class)
     @ColumnInfo(name = "id_users")
     private int[] idUser;
     private long time;
