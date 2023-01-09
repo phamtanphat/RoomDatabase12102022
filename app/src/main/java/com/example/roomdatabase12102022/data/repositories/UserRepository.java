@@ -9,6 +9,7 @@ import com.example.roomdatabase12102022.data.local.entities.UserEntity;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * Created by pphat on 1/6/2023.
@@ -22,5 +23,9 @@ public class UserRepository {
 
     public Observable<List<UserEntity>> getUsers() {
         return userDao.getUsers();
+    }
+
+    public Single<Long> addUser(UserEntity user) {
+        return userDao.insertUser(user);
     }
 }

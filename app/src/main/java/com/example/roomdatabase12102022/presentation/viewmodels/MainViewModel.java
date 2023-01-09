@@ -16,6 +16,7 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -25,6 +26,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class MainViewModel extends ViewModel {
     private MutableLiveData<Resource<List<UserEntity>>> resourceUser = new MutableLiveData<>();
+    private MutableLiveData<Resource<String>> resourceResultInsert = new MutableLiveData<>();
     private UserRepository repository;
 
     public MainViewModel(Context context) {
@@ -33,6 +35,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Resource<List<UserEntity>>> getResourceUser() {
         return resourceUser;
+    }
+
+    public LiveData<Resource<String>> getResultInsert() {
+        return resourceResultInsert;
     }
 
     public void getUsers() {
@@ -59,6 +65,29 @@ public class MainViewModel extends ViewModel {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    public void addUser(UserEntity user) {
+        resourceResultInsert.setValue(new Resource.Loading<>(null));
+        repository.addUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull Long aLong) {
+                        resourceResultInsert.setValue(new Resource.Success<>("Thêm dữ liệu thành công"));
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        resourceResultInsert.setValue(new Resource.Error<>(e.getMessage()));
                     }
                 });
     }

@@ -39,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 if (listResource != null) {
                     switch (listResource.status) {
                         case SUCCESS:
-                            Log.d("BBB", listResource.data.toString());
+                            for (UserEntity e: listResource.data) {
+                                Log.d("BBB", e.toString());
+                            }
                             break;
                         case ERROR:
                             Log.d("BBB", listResource.message);
@@ -52,6 +54,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainViewModel.getResultInsert().observe(this, new Observer<Resource<String>>() {
+            @Override
+            public void onChanged(Resource<String> stringResource) {
+                if (stringResource != null) {
+                    switch (stringResource.status) {
+                        case SUCCESS:
+                            Log.d("BBB", stringResource.data);
+                            break;
+                        case ERROR:
+                            Log.d("BBB", stringResource.message);
+                            break;
+                        case LOADING:
+                            Log.d("BBB", "Loading");
+                            break;
+                    }
+                }
+            }
+        });
+
         mainViewModel.getUsers();
+        mainViewModel.addUser(new UserEntity("Nguyễn Văn A", "0123456789"));
     }
 }
