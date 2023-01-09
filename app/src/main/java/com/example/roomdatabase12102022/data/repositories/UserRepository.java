@@ -28,4 +28,8 @@ public class UserRepository {
     public Single<Long> addUser(UserEntity user) {
         return userDao.insertUser(user);
     }
+
+    public Single<Integer> deleteUser(int id) {
+        return userDao.deleteUser(id);
+    }
 }

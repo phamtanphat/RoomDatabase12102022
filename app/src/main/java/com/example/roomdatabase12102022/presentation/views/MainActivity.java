@@ -54,7 +54,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mainViewModel.getResultInsert().observe(this, new Observer<Resource<String>>() {
+//        mainViewModel.getResultInsert().observe(this, new Observer<Resource<String>>() {
+//            @Override
+//            public void onChanged(Resource<String> stringResource) {
+//                if (stringResource != null) {
+//                    switch (stringResource.status) {
+//                        case SUCCESS:
+//                            Log.d("BBB", stringResource.data);
+//                            break;
+//                        case ERROR:
+//                            Log.d("BBB", stringResource.message);
+//                            break;
+//                        case LOADING:
+//                            Log.d("BBB", "Loading");
+//                            break;
+//                    }
+//                }
+//            }
+//        });
+
+        mainViewModel.getResultDelete().observe(this, new Observer<Resource<String>>() {
             @Override
             public void onChanged(Resource<String> stringResource) {
                 if (stringResource != null) {
@@ -72,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         mainViewModel.getUsers();
-        mainViewModel.addUser(new UserEntity("Nguyễn Văn A", "0123456789"));
+//        mainViewModel.addUser(new UserEntity("Nguyễn Văn A", "0123456789"));
+        mainViewModel.deleteUser(1);
     }
 }

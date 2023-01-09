@@ -27,6 +27,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private MutableLiveData<Resource<List<UserEntity>>> resourceUser = new MutableLiveData<>();
     private MutableLiveData<Resource<String>> resourceResultInsert = new MutableLiveData<>();
+    private MutableLiveData<Resource<String>> resourceResultDelete = new MutableLiveData<>();
     private UserRepository repository;
 
     public MainViewModel(Context context) {
@@ -39,6 +40,10 @@ public class MainViewModel extends ViewModel {
 
     public LiveData<Resource<String>> getResultInsert() {
         return resourceResultInsert;
+    }
+
+    public LiveData<Resource<String>> getResultDelete() {
+        return resourceResultDelete;
     }
 
     public void getUsers() {
@@ -88,6 +93,29 @@ public class MainViewModel extends ViewModel {
                     @Override
                     public void onError(@NonNull Throwable e) {
                         resourceResultInsert.setValue(new Resource.Error<>(e.getMessage()));
+                    }
+                });
+    }
+
+    public void deleteUser(int id) {
+        resourceResultDelete.setValue(new Resource.Loading<>(null));
+        repository.deleteUser(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull Integer integer) {
+                        resourceResultDelete.setValue(new Resource.Success<>("Xóa dữ liệu thành công"));
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        resourceResultDelete.setValue(new Resource.Error<>(e.getMessage()));
                     }
                 });
     }

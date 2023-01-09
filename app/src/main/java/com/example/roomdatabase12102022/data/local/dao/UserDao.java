@@ -23,4 +23,7 @@ public interface UserDao {
 
     @Insert(entity = UserEntity.class, onConflict = OnConflictStrategy.REPLACE)
     Single<Long> insertUser(UserEntity user);
+
+    @Query("DELETE FROM user WHERE id = :id")
+    Single<Integer> deleteUser(int id);
 }
